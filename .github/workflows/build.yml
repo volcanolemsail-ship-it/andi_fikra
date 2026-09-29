@@ -35,7 +35,7 @@ jobs:
           unzip -q andi_fikra_improved.zip -d extracted
       - name: Fix AlertDialog import
         run: |
-          sed -i '/^package /a import android.app.AlertDialog;' extracted/app/src/main/java/com/zakaryalemsail/andifika/MainActivity.java
+          find extracted -name MainActivity.java -exec sed -i '/^package /a import android.app.AlertDialog;' {} \;
       - name: Build APK
         run: |
           gradle -p extracted :app:assembleDebug --no-daemon
