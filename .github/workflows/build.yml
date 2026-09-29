@@ -32,7 +32,7 @@ jobs:
 
       - name: Extract Android project
         run: |
-          unzip -q andi_fikra_github.zip -d extracted
+          unzip -q andi_fikra_improved.zip -d extracted
 
       - name: Build APK
         run: |
