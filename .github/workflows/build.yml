@@ -1,3 +1,4 @@
+
 name: Android APK Build
 
 on:
@@ -20,26 +21,22 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Gradle
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
 
-      - name: Extract Android project
-        run: |
-          unzip -q andi_fikra_github.zip -d extracted
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
       - name: Build APK
-        run: |
-          GRADLEW=$(find extracted -name gradlew -type f | head -n 1)
-          if [ -z "$GRADLEW" ]; then
-            echo "ERROR: gradlew not found in ZIP"
-            exit 1
-          fi
-          chmod +x "$GRADLEW"
-          cd "$(dirname "$GRADLEW")"
-          ./gradlew assembleDebug
+        run: gradle :app:assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Android-APK
-          path: extracted/**/build/outputs/apk/debug/*.apk
+          name: Andi-Fikra-APK
+          path: app/build/outputs/apk/debug/app-debug.apk
